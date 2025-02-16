@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ftgo-order-service
+  namespace: ftgo
   labels:
     application: ftgo
     app: ftgo
@@ -17,10 +18,11 @@ spec:
   selector:
     svc: ftgo-order-service
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ftgo-order-service
+  namespace: ftgo
   labels:
     application: ftgo
 spec:
@@ -28,6 +30,9 @@ spec:
   strategy:
     rollingUpdate:
       maxUnavailable: 0
+  selector:
+    matchLabels:
+      svc: ftgo-order-service
   template:
     metadata:
       labels:

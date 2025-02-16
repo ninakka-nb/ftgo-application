@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ftgo-api-gateway
+  namespace: ftgo
   labels:
     name: ftgo-api-gateway
     application: ftgo
@@ -16,14 +17,18 @@ spec:
 #  loadBalancerSourceRanges:
 #    - 88.128.82.195/32
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ftgo-api-gateway
+  namespace: ftgo
   labels:
     application: ftgo
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      svc: ftgo-api-gateway
   strategy:
     rollingUpdate:
       maxUnavailable: 0
